@@ -155,7 +155,7 @@ public class AddActivity extends AppCompatActivity  implements
         OnMyLocationClickListener,
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback{
-
+//
     private PlaceAutocompleteAdapter mAdapter;
     private FusedLocationProviderClient mFusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -394,7 +394,6 @@ public class AddActivity extends AppCompatActivity  implements
         mMap.setOnMyLocationClickListener(this);
         enableMyLocation();
 
-        mMap.get
     }
 
     public String convertDate(int input) {
