@@ -524,7 +524,7 @@ public class AddActivity extends AppCompatActivity  implements
                         .center(place.getLatLng())
                          .fillColor(mFillColorArgb)
                         .radius(seekBarradius.getProgress()*10));
-                
+
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(SYDNEY));
 
                 places.release();
