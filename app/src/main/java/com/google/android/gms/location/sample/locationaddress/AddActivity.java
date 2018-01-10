@@ -21,12 +21,15 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBufferResponse;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
@@ -150,10 +153,12 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+
 public class AddActivity extends AppCompatActivity  implements
         OnMyLocationButtonClickListener,
         OnMyLocationClickListener,
         OnMapReadyCallback,
+        PlaceSelectionListener,
         ActivityCompat.OnRequestPermissionsResultCallback{
 //
     private PlaceAutocompleteAdapter mAdapter;
@@ -166,6 +171,7 @@ public class AddActivity extends AppCompatActivity  implements
      */
     private boolean mPermissionDenied = false;
 
+    private AddressResultReceiver2 mResultReceiver;
 
     public Location mLastLocation;
 
@@ -192,12 +198,13 @@ public class AddActivity extends AppCompatActivity  implements
 
     private AutoCompleteTextView mAutocompleteView;
 
+
     private TextView mPlaceDetailsText;
 
     private TextView mPlaceDetailsAttribution;
 
     private TextView place_details;
-
+    Marker  mBrisbane = null;
     private SeekBar seekBarradius;
     private ToggleButton mToggleButton;
     private Button  piketime;
@@ -268,19 +275,14 @@ public class AddActivity extends AppCompatActivity  implements
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
-
-
-
-
-
-
-
-
-
+    Circle mCircle = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
+
+        mResultReceiver = new AddressResultReceiver2(new Handler());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -345,6 +347,7 @@ public class AddActivity extends AppCompatActivity  implements
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 radiussummary.setText(converntSeekbarToString(progress));
+                mCircle.setRadius(seekBarradius.getProgress()*100);
             }
         });
 
@@ -476,6 +479,8 @@ public class AddActivity extends AppCompatActivity  implements
      * Callback for results from a Places Geo Data Client query that shows the first place result in
      * the details view on screen.
      */
+
+
     private OnCompleteListener<PlaceBufferResponse> mUpdatePlaceDetailsCallback
             = new OnCompleteListener<PlaceBufferResponse>() {
         @Override
@@ -491,14 +496,36 @@ public class AddActivity extends AppCompatActivity  implements
 
                 // Display the third party attributions if set.
                 final CharSequence thirdPartyAttribution = places.getAttributions();
-//                if (thirdPartyAttribution == null) {
-//                    mPlaceDetailsAttribution.setVisibility(View.GONE);
-//                } else {
-//                    mPlaceDetailsAttribution.setVisibility(View.VISIBLE);
-//                    mPlaceDetailsAttribution.setText(
-//                            Html.fromHtml(thirdPartyAttribution.toString()));
-//                }
 
+                  CameraPosition SYDNEY =
+                        new CameraPosition.Builder().target(place.getLatLng())
+                                .zoom(15.5f)
+                                .build();
+                if(mBrisbane != null)
+                {
+                    mBrisbane.remove();
+                }
+                  mBrisbane = mMap.addMarker(new MarkerOptions()
+                        .position(place.getLatLng())
+                        .title("Brisbane")
+                        .snippet("Population: 2,074,200")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+                    if(mCircle != null)
+                    {
+                        mCircle.remove();
+                    }
+
+                 int mFillColorArgb;
+                mFillColorArgb = Color.HSVToColor(
+                       70, new float[]{30, 70, 206});
+
+                mCircle = mMap.addCircle(new CircleOptions()
+                        .center(place.getLatLng())
+                         .fillColor(mFillColorArgb)
+                        .radius(seekBarradius.getProgress()*10));
+                
+                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(SYDNEY));
 
                 places.release();
             } catch (RuntimeRemoteException e) {
@@ -592,8 +619,8 @@ public class AddActivity extends AppCompatActivity  implements
     /**
      * Receiver for data sent from FetchAddressIntentService.
      */
-    private class AddressResultReceiver extends ResultReceiver {
-        AddressResultReceiver(Handler handler) {
+    private class AddressResultReceiver2 extends ResultReceiver {
+        AddressResultReceiver2(Handler handler) {
             super(handler);
         }
 
@@ -682,50 +709,6 @@ public class AddActivity extends AppCompatActivity  implements
         }
     }
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-//                                           @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-//            if (grantResults.length <= 0) {
-//                // If user interaction was interrupted, the permission request is cancelled and you
-//                // receive empty arrays.
-//            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // Permission granted.
-//                getAddress();
-//            } else {
-//                // Permission denied.
-//
-//                // Notify the user via a SnackBar that they have rejected a core permission for the
-//                // app, which makes the Activity useless. In a real app, core permissions would
-//                // typically be best requested during a welcome-screen flow.
-//
-//                // Additionally, it is important to remember that a permission might have been
-//                // rejected without asking the user for permission (device policy or "Never ask
-//                // again" prompts). Therefore, a user interface affordance is typically implemented
-//                // when permissions are denied. Otherwise, your app could appear unresponsive to
-//                // touches or interactions which have required permissions.
-//                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
-//                        new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                // Build intent that displays the App settings screen.
-//                                Intent intent = new Intent();
-//                                intent.setAction(
-//                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                                Uri uri = Uri.fromParts("package",
-//                                        BuildConfig.APPLICATION_ID, null);
-//                                intent.setData(uri);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                startActivity(intent);
-//                            }
-//                        });
-//            }
-//        }
-//    }
-
 
     @SuppressWarnings("MissingPermission")
     private void getLastLocation() {
@@ -738,6 +721,17 @@ public class AddActivity extends AppCompatActivity  implements
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onPlaceSelected(Place place) {
+        Toast.makeText(this, String.valueOf(place.getLatLng()), Toast.LENGTH_SHORT).show();
+    }
+    @Override
+    public void onError(Status status) {
+
+        Toast.makeText(this, "Place selection failed: " + status.getStatusMessage(),
+                Toast.LENGTH_SHORT).show();
     }
 
 

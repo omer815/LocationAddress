@@ -398,7 +398,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mFetchAddressButton.setEnabled(true);
         }
     }
-
     /**
      * Shows a toast with the given text.
      */
@@ -559,7 +558,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-
     @SuppressWarnings("MissingPermission")
     private void getLastLocation() {
         mFusedLocationClient.getLastLocation()
@@ -572,50 +570,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
     }
-
-
-    //    public void addlocation() {
-//
-//        addnewlocation();
-//
-//        // Update the cursor in the adapter to trigger UI to display the new list
-//        mAdapter.swapCursor(getAllLocations());
-//
-//    }
-
-//    private Cursor getAllLocations() {
-//        return mDb.query(
-//                AlarmClockDbConfiguration.alarmclockEntry.TABLE_NAME,
-//                null,
-//                null,
-//                null,
-//                null,
-//                null,
-//                AlarmClockDbConfiguration.alarmclockEntry.COLUMN_MINUTE
-//        );
-//    }
-//
-//    private long addnewlocation() {
-//        ContentValues cv = new ContentValues();
-//
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_1, 1);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_2, 0);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_3, 1);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_4, 1);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_5, 1);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_6, 1);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_7, 1);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_ALARM_ON_OFF, 1);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_HOUR, 22);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LATITUDE, 54.55);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LOCATION_ADDRESS, "הכרמל 21 תל מונד");
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LONGITUTE, 50.7777);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_MINUTE, 1);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_RANGE_SIZE, 6.5452);
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_RINGNAME, "1");
-//        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_VIBRATE, 1);
-//
-//        return mDb.insert(AlarmClockDbConfiguration.alarmclockEntry.TABLE_NAME, null, cv);
-//    }
-
 }

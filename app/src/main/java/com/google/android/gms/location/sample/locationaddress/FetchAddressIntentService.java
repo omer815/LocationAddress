@@ -159,4 +159,6 @@ public class FetchAddressIntentService extends IntentService {
         bundle.putString(Constants.RESULT_DATA_KEY, message);
         mReceiver.send(resultCode, bundle);
     }
+
+
 }

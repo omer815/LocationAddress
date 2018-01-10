@@ -199,12 +199,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/picktime_button" />
 
-    <fragment
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         class="com.google.android.gms.maps.SupportMapFragment"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="381dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/place_description"
+        app:layout_constraintEnd_toEndOf="@+id/tv"
+        app:layout_constraintStart_toStartOf="@+id/tv"
+        app:layout_constraintTop_toTopOf="@+id/tv" />
 
 
 </android.support.constraint.ConstraintLayout>
