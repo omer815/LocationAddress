@@ -14,6 +14,8 @@
   limitations under the License.
 -->
 <resources>
+    <string name="title_day">בחר ימים</string>
+
     <string name="app_name">שעון מעורר מבוסס מיקום</string>
     <string name="no_geocoder_available">לא ניתן לבצע המרה מקורדינטיות לכתובת</string>
     <string name="fetch_address">Fetch address</string>
@@ -290,4 +292,19 @@
     <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
     <string name="permission_required_toast">Location permission is required for this demo.</string>
     <string name="title_activity_maps">Map</string>
+
+    <string-array name="days">
+        <item value="1">א</item>
+        <item value="1">ב</item>
+        <item value="1">ג</item>
+        <item value="1">ד</item>
+        <item value="1">ה</item>
+        <item value="1">ו</item>
+        <item value="1">ש</item>
+
+    </string-array>
+    <string name="ok">אישור</string>
+    <string name="cencel1">ביטול</string>
+
+
 </resources>

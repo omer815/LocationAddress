@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -172,6 +174,7 @@ public class AddActivity extends AppCompatActivity  implements
     private boolean mPermissionDenied = false;
 
     private AddressResultReceiver2 mResultReceiver;
+    public Place place = null;
 
     public Location mLastLocation;
 
@@ -282,6 +285,7 @@ public class AddActivity extends AppCompatActivity  implements
         setContentView(R.layout.activity_add);
 
 
+
         mResultReceiver = new AddressResultReceiver2(new Handler());
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -348,6 +352,17 @@ public class AddActivity extends AppCompatActivity  implements
                                           boolean fromUser) {
                 radiussummary.setText(converntSeekbarToString(progress));
                 mCircle.setRadius(seekBarradius.getProgress()*100);
+
+             place.getLatLng();
+
+                CameraPosition SYDNEY =
+                        new CameraPosition.Builder().target(place.getLatLng())
+                                .zoom(15.5f - progress / 8 )
+                                .build();
+
+               mMap.moveCamera(CameraUpdateFactory.newCameraPosition(SYDNEY));
+
+
             }
         });
 
@@ -362,6 +377,7 @@ public class AddActivity extends AppCompatActivity  implements
 
             }
         });
+
 
 
         TextView tv = (TextView) findViewById(R.id.time_choosen);
@@ -386,8 +402,15 @@ public class AddActivity extends AppCompatActivity  implements
             }
         });
 
+       TextView repet = (TextView)findViewById(R.id.repert_des);
+        repet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new pickDayDialog();
+                newFragment.show(getFragmentManager(),"dayFrafment");
+            }
+        });
     }
-
 
     @Override
     public void onMapReady(GoogleMap map) {
@@ -406,7 +429,14 @@ public class AddActivity extends AppCompatActivity  implements
             return "0" + String.valueOf(input);
         }
     }
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /* Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater */
+        MenuInflater inflater = getMenuInflater();
+        /* Use the inflater's inflate method to inflate our menu layout to this menu */
+        inflater.inflate(R.menu.menu, menu);
+        /* Return true so that the menu is displayed in the Toolbar */
+        return true;
+    }
 
     public String converntSeekbarToString(int progress)
     {
@@ -489,7 +519,7 @@ public class AddActivity extends AppCompatActivity  implements
                 PlaceBufferResponse places = task.getResult();
 
                 // Get the Place object from the buffer.
-                final Place place = places.get(0);
+                place = places.get(0);
 
                 // Format details of the place for display and show it in a TextView.
                 mPlaceDetailsText.setText(place.getAddress());
@@ -527,7 +557,6 @@ public class AddActivity extends AppCompatActivity  implements
 
                 mMap.moveCamera(CameraUpdateFactory.newCameraPosition(SYDNEY));
 
-                places.release();
             } catch (RuntimeRemoteException e) {
                 // Request did not complete successfully
                 return;

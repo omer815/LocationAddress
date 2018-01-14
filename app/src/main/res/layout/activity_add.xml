@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.google.android.gms.location.sample.locationaddress.AddActivity">
 
-
     <AutoCompleteTextView
         android:id="@+id/autocomplete_places"
         android:layout_width="351dp"
@@ -128,8 +127,8 @@
 
     <TextView
         android:id="@+id/repert_des"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="81dp"
+        android:layout_height="37dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="16dp"
         android:text="@string/repeting"
