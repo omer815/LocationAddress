@@ -212,5 +212,61 @@
         app:layout_constraintStart_toStartOf="@+id/tv"
         app:layout_constraintTop_toTopOf="@+id/tv" />
 
+    <EditText
+        android:id="@+id/Day1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/Day2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+    <EditText
+        android:id="@+id/Day3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+    <EditText
+        android:id="@+id/Day4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+    <EditText
+        android:id="@+id/Day5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+    <EditText
+        android:id="@+id/Day6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+    <EditText
+        android:id="@+id/Day7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+
+    <EditText
+        android:id="@+id/minute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
+    <EditText
+        android:id="@+id/hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:visibility="gone" />
 
 </android.support.constraint.ConstraintLayout>

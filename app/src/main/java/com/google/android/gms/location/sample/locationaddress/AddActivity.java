@@ -1,8 +1,8 @@
 package com.google.android.gms.location.sample.locationaddress;
 
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -21,8 +22,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import android.widget.Toast;
-
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -30,129 +29,51 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBufferResponse;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.location.sample.locationaddress.alarmmanager.AlarmReceiver;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.RuntimeRemoteException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import android.view.View;
-import android.app.DialogFragment;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnCircleClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.Dash;
-import com.google.android.gms.maps.model.Dot;
-import com.google.android.gms.maps.model.Gap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PatternItem;
-
 import android.graphics.Color;
-import android.graphics.Point;
 import android.location.Location;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Spinner;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import java.sql.Time;
-import android.support.v4.app.FragmentActivity;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
-import android.location.Location;
-import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.sample.locationaddress.data.AlarmClockDbConnection;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-
 import com.google.android.gms.location.sample.locationaddress.data.*;
-import com.google.android.gms.tasks.Task;
-
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationClickListener;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
-
-
+import java.util.Calendar;
 import java.util.Calendar;
 
 
@@ -162,15 +83,25 @@ public class AddActivity extends AppCompatActivity  implements
         OnMapReadyCallback,
         PlaceSelectionListener,
         ActivityCompat.OnRequestPermissionsResultCallback{
-//
+
+    private PendingIntent pendingIntent;
+
+    private TextView DAY1;
+    private TextView DAY2;
+    private TextView DAY3;
+    private TextView DAY4;
+    private TextView DAY5;
+    private TextView DAY6;
+    private TextView DAY7;
+
+
+    private TextView hour1;
+    private TextView minute1;
+
     private PlaceAutocompleteAdapter mAdapter;
     private FusedLocationProviderClient mFusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    /**
-     * Flag indicating whether a requested permission has been denied after returning in
-     * {@link #onRequestPermissionsResult(int, String[], int[])}.
-     */
     private boolean mPermissionDenied = false;
 
     private AddressResultReceiver2 mResultReceiver;
@@ -190,17 +121,13 @@ public class AddActivity extends AppCompatActivity  implements
 
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
+    private SQLiteDatabase mDb;
 
     private boolean mAddressRequested;
 
-    /**
-     * The formatted location address.
-     */
     public String mAddressOutput;
 
-
     private AutoCompleteTextView mAutocompleteView;
-
 
     private TextView mPlaceDetailsText;
 
@@ -214,6 +141,7 @@ public class AddActivity extends AppCompatActivity  implements
 
     protected GeoDataClient mGeoDataClient;
 
+    private Button AddButton;
     private TextView radiussummary;
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(-34.041458, 150.790100), new LatLng(-33.682247, 151.383362));
@@ -279,11 +207,34 @@ public class AddActivity extends AppCompatActivity  implements
                 .newInstance(true).show(getSupportFragmentManager(), "dialog");
     }
     Circle mCircle = null;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
+        Intent alarmIntent = new Intent(AddActivity.this, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(AddActivity.this ,0 ,alarmIntent , 0);
+
+        DAY1 = (TextView) findViewById(R.id.Day1);
+        DAY2 = (TextView) findViewById(R.id.Day2);
+        DAY3 = (TextView) findViewById(R.id.Day3);
+        DAY4 = (TextView) findViewById(R.id.Day4);
+        DAY5 = (TextView) findViewById(R.id.Day5);
+        DAY6 = (TextView) findViewById(R.id.Day6);
+         DAY7 = (TextView) findViewById(R.id.Day7);
+
+
+        hour1 = (TextView) findViewById(R.id.hour);
+        minute1 = (TextView) findViewById(R.id.minute);
+
+        AddButton = (Button) findViewById(R.id.action_ADD);
+
+        AlarmClockDbConnection dbHelper = new AlarmClockDbConnection(this);
+
+        mDb = dbHelper.getWritableDatabase();
 
 
         mResultReceiver = new AddressResultReceiver2(new Handler());
@@ -389,6 +340,10 @@ public class AddActivity extends AppCompatActivity  implements
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
+        hour1.setText(String.valueOf(hour));
+
+        minute1.setText(String.valueOf(minute));
+
 
         tv.setText( convertDate(hour)+":"+
                 convertDate(minute) );
@@ -410,6 +365,40 @@ public class AddActivity extends AppCompatActivity  implements
                 newFragment.show(getFragmentManager(),"dayFrafment");
             }
         });
+    }
+
+    public void start()
+    {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int interval = 8000;
+
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                                    System.currentTimeMillis(),
+                                    interval,
+                                    pendingIntent);
+
+        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+    }
+
+    public void cancel() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+        Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
+    }
+
+    public void startAt10() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int interval = 1000 * 60 * 20;
+
+        /* Set the alarm to start at 10:30 AM */
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 30);
+
+        /* Repeating on every 20 minutes interval */
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 20, pendingIntent);
     }
 
     @Override
@@ -438,6 +427,37 @@ public class AddActivity extends AppCompatActivity  implements
         return true;
     }
 
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_ADD:
+                AddNewItem();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected long AddNewItem(){
+        ContentValues cv = new ContentValues();
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_RANGE_SIZE, seekBarradius.getProgress());
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_1, Integer.valueOf(DAY1.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_2, Integer.valueOf(DAY2.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_3, Integer.valueOf(DAY3.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_4, Integer.valueOf(DAY4.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_5, Integer.valueOf(DAY5.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_6, Integer.valueOf(DAY6.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_7, Integer.valueOf(DAY7.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_ALARMState, 1);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LATITUDE, place.getLatLng().latitude);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LONGITUTE, place.getLatLng().longitude);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_MINUTE, Integer.valueOf(hour1.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_HOUR, Integer.valueOf(minute1.getText().toString()));
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LOCATION_ADDRESS, place.getAddress().toString());
+        return mDb.insert(AlarmClockDbConfiguration.alarmclockEntry.TABLE_NAME, null, cv);
+
+    }
     public String converntSeekbarToString(int progress)
     {
 

@@ -81,7 +81,7 @@ import java.util.Locale;
  * For an example that shows location updates using the Fused Location Provider API, see
  * https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates.
  */
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity  {
 
     private itemAdapter mAdapter;
     private SQLiteDatabase mDb;
@@ -143,24 +143,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button mFetchAddressButton;
 
     private FloatingActionButton mAddButton;
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
         RecyclerView locationRecyclerView;
 
@@ -239,10 +227,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
-
-
-
     public void addToWaitlist(View view) {
         addNewGuest();
 
@@ -262,13 +246,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         );
     }
     private long addNewGuest() {
-        // COMPLETED (5) Inside, create a ContentValues instance to pass the values onto the insert query
         ContentValues cv = new ContentValues();
-        // COMPLETED (6) call put to insert the name value with the key COLUMN_GUEST_NAME
         cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_RANGE_SIZE, 4.557666);
-        // COMPLETED (7) call put to insert the party size value with the key COLUMN_PARTY_SIZE
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_1, 1);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_2, 1);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_3, 1);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_4, 1);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_5, 1);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_6, 1);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_DAY_7, 1);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_ALARMState, 0);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LATITUDE, 4.557666);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LONGITUTE, 4.557666);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_MINUTE, 4.557666);
+        cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_HOUR, 4.557666);
         cv.put(AlarmClockDbConfiguration.alarmclockEntry.COLUMN_LOCATION_ADDRESS, mAddressOutput);
-        // COMPLETED (8) call insert to run an insert query on TABLE_NAME with the ContentValues created
         return mDb.insert(AlarmClockDbConfiguration.alarmclockEntry.TABLE_NAME, null, cv);
     }
     @Override
@@ -319,6 +311,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         updateUIWidgets();
 
         addToWaitlist(view);
+    }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        mAdapter.swapCursor(getAllGuests());
+        updateUIWidgets();
     }
 
     /**

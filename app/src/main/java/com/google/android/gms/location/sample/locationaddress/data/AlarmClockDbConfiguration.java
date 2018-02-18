@@ -15,7 +15,7 @@ public class AlarmClockDbConfiguration {
         public static final String COLUMN_LOCATION_ADDRESS = "fullAdress";
         public static final String COLUMN_LATITUDE = "latitude";
         public static final String COLUMN_LONGITUTE = "longitude";
-        public static final String COLUMN_ALARM_ON_OFF = "alarmOn/Off";
+        public static final String COLUMN_ALARMState = "alarmState";
         public static final String COLUMN_DAY_1 = "sunday";
         public static final String COLUMN_DAY_2 = "monday";
         public static final String COLUMN_DAY_3 = "tuesday";

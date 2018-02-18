@@ -4,8 +4,8 @@
     tools:context="com.google.android.gms.location.sample.locationaddress.AddActivity">
 
     <item
-        android:id="@+id/action_share"
+        android:id="@+id/action_ADD"
         android:icon="@drawable/ic_check_black_24dp"
         android:title="share"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
 </menu>

@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class pickDayDialog extends DialogFragment {
+
+
+
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final ArrayList<Integer> mSelectedItems = new ArrayList<Integer>();  // Where we track the selected items
@@ -49,31 +53,53 @@ public class pickDayDialog extends DialogFragment {
                         // User clicked OK, so save the mSelectedItems results somewhere
                         // or return them to the component that opened the dialog
                         TextView repet = (TextView) getActivity().findViewById(R.id.repetchosen);
+                         TextView DAY1 = (TextView) getActivity().findViewById(R.id.Day1);
+                         TextView DAY2 = (TextView) getActivity().findViewById(R.id.Day2);
+                         TextView DAY3 = (TextView) getActivity().findViewById(R.id.Day3);
+                         TextView DAY4 = (TextView) getActivity().findViewById(R.id.Day4);
+                         TextView DAY5 = (TextView) getActivity().findViewById(R.id.Day5);
+                         TextView DAY6 = (TextView) getActivity().findViewById(R.id.Day6);
+                         TextView DAY7 = (TextView) getActivity().findViewById(R.id.Day7);
+                        DAY1.setText("0");
+                        DAY2.setText("0");
+                        DAY3.setText("0");
+                        DAY4.setText("0");
+                        DAY5.setText("0");
+                        DAY6.setText("0");
+                        DAY7.setText("0");
+
 
                         StringBuilder days = new StringBuilder();
                         String day = null;
                         for (int loc : mSelectedItems) {
                             switch (loc) {
                                 case 0:
+                                    DAY1.setText("1");
                                     day = "א";
                                     break;
 
                                 case 1:
+                                    DAY2.setText("1");
                                     day = "ב";
                                     break;
                                 case 2:
+                                    DAY3.setText("1");
                                     day = "ג";
                                     break;
                                 case 3:
+                                    DAY4.setText("1");
                                     day = "ד";
                                     break;
                                 case 4:
+                                    DAY5.setText("1");
                                     day = "ה";
                                     break;
                                 case 5:
+                                    DAY6.setText("1");
                                     day = "ו";
                                     break;
                                 case 6:
+                                    DAY7.setText("1");
                                     day = "ש";
                                     break;
                                 default:

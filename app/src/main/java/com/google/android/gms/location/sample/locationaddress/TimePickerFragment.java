@@ -20,23 +20,24 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
-        //Use the current time as the default values for the time picker
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
-        //Create and return a new instance of TimePickerDialog
         return new TimePickerDialog(getActivity(),this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
     }
 
-    //onTimeSet() callback method
     public void onTimeSet(TimePicker view, int hourOfDay, int minute){
-        //Do something with the user chosen time
-        //Get reference of host activity (XML Layout File) TextView widget
+
         TextView tv = (TextView) getActivity().findViewById(R.id.time_choosen);
-        //Set a message for user
-        //Display the user changed time on TextView
+        TextView hour1 = (TextView) getActivity().findViewById(R.id.hour);
+        TextView minute1 = (TextView) getActivity().findViewById(R.id.minute);
+
+        hour1.setText(String.valueOf(hourOfDay));
+
+        minute1.setText(String.valueOf(minute));
+
         tv.setText( convertDate(hourOfDay)+":"+
                  convertDate(minute) );
     }

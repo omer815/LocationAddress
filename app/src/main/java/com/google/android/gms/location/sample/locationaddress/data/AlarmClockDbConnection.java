@@ -12,10 +12,10 @@ import com.google.android.gms.location.sample.locationaddress.data.AlarmClockDbC
 
 public class AlarmClockDbConnection extends SQLiteOpenHelper{
     // The database name
-    private static final String DATABASE_NAME = "alarm555.db";
+    private static final String DATABASE_NAME = "alarmv1.db";
 
     // If you change the database schema, you must increment the database version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 12;
 
     // Constructor
     public AlarmClockDbConnection(Context context) {
@@ -29,6 +29,18 @@ public class AlarmClockDbConnection extends SQLiteOpenHelper{
         final String SQL_CREATE_WAITLIST_TABLE1 = "CREATE TABLE " + alarmclockEntry.TABLE_NAME + " (" +
                 alarmclockEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 alarmclockEntry.COLUMN_RANGE_SIZE + " REAL NOT NULL, " +
+                alarmclockEntry.COLUMN_LATITUDE + " REAL NOT NULL, " +
+                alarmclockEntry.COLUMN_LONGITUTE + " REAL NOT NULL, " +
+                alarmclockEntry.COLUMN_ALARMState + " INTEGER NOT NULL, " +
+                alarmclockEntry.COLUMN_DAY_1 + " INTEGER NOT NULL, " +
+                alarmclockEntry.COLUMN_DAY_2 + " INTEGER NOT NULL, " +
+                alarmclockEntry.COLUMN_DAY_3 + " INTEGER NOT NULL, " +
+                alarmclockEntry.COLUMN_DAY_4 + " INTEGER NOT NULL, " +
+                alarmclockEntry.COLUMN_DAY_5 + " INTEGER NOT NULL, " +
+                alarmclockEntry.COLUMN_DAY_6 + " INTEGER NOT NULL, " +
+                alarmclockEntry.COLUMN_DAY_7 + " INTEGER NOT NULL, " +
+                alarmclockEntry.COLUMN_MINUTE + " REAL NOT NULL, " +
+                alarmclockEntry.COLUMN_HOUR + " REAL NOT NULL, " +
                 alarmclockEntry.COLUMN_LOCATION_ADDRESS + " TEXT NOT NULL " +
                 "); ";
 
